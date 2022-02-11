@@ -6,12 +6,12 @@ ui = tagList(
       }
     ")),
     navbarPage(
-      theme = shinythemes::shinytheme("cerulean"),
+      theme = shinythemes::shinytheme("flatly"),
       "DICE Revenue Modeler",
       tabPanel("Input Variables",
                sidebarPanel(
                  h5("Project date input"),
-                 dateInput("startdate", "Please select calculation Start Date:", value="2022-01-01"),
+                 dateInput("startdate", "Please select calculation Start Date:", value="2022-01-18"),
                  dateInput("enddate", "Please select calculation End Date:", value="2023-12-31"),
                  br(),
                  h5("Select retention data upload method:"),
@@ -126,6 +126,7 @@ ui = tagList(
                  tabsetPanel(type = "tabs",
                              tabPanel("Revenue by Month",tableOutput("month_view")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("Revenue by Date",reactableOutput("date_view")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
+                             tabPanel("Revenue plot", plotOutput("revenue_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("LTV plot", plotOutput("ltv_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("Retention plot", plotOutput("retention_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1))
                  ),

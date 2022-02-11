@@ -11,7 +11,7 @@ final_date_fun<-reactive({
            total_marketing_cost=sum(total_marketing_cost))%>%
     mutate(net_revenue=total_iap_revenue+total_ad_revenue-total_marketing_cost)%>%
     select(year_month,date,total_install,total_iap_revenue,total_ad_revenue,total_marketing_cost,net_revenue)%>%
-    distinct()
+    distinct() %>% arrange(date)
   return(final_date)
 })
 
@@ -134,6 +134,25 @@ final_month_fun<-reactive({
   rownames(final_month)<-names
   final_month<-rownames_to_column(final_month,"Metric Names")
   return(final_month)
+})
+
+#Revenue Plot
+revenue<-reactive({
+  final_month<-final_date_fun() %>%
+    group_by(year_month) %>%
+    mutate(total_install=sum(total_install),
+           total_iap_revenue=sum(total_iap_revenue),
+           total_ad_revenue=sum(total_ad_revenue),
+           total_marketing_cost=sum(total_marketing_cost),
+           net_revenue=sum(net_revenue))%>%
+    mutate(running_net_revenue=cumsum(net_revenue)) %>%
+    select(year_month,total_install,total_iap_revenue,total_ad_revenue,total_marketing_cost,net_revenue,running_net_revenue)%>%
+    distinct()
+  ggplot(data=final_month)+
+    geom_bar(aes(x=year_month,y=net_revenue),stat="identity", fill="skyblue4",color="#006000")+
+    geom_line(aes(x=year_month, y=running_net_revenue),color="tomato4")+
+    labs(title= "Predicted Revenue",x="YearMonth",y="Revenue")+
+    scale_y_continuous(labels = dollar, sec.axis=sec_axis(trans=~.*10,name="Running Net Revenue",label=dollar))
 })
 
 final_ios_fun<-reactive({

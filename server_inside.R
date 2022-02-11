@@ -25,6 +25,8 @@ output$date_view<-renderReactable({dailyInput()})
 output$ltv_plot<-renderPlot(ltv())
 #retention_plot
 output$retention_plot<-renderPlot(retention())
+#revenue_plot
+output$revenue_plot<-renderPlot(revenue())
 #downloadRevenue
 downloadInput <- reactive({
   switch(input$dataset,
