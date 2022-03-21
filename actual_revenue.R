@@ -4,7 +4,7 @@ vDriver <- JDBC(driverClass = "com.vertica.jdbc.Driver",
 vertica <- dbConnect(vDriver, "jdbc:vertica://23.20.153.208:5433/Verticadb","dbadmin", "Welcome$6060$")
 
 sale_data<-reactive({
-  sale_sql=paste("SELECT DATE(time_stamp) AS date, SUM(original_price) AS revenue FROM MB_Game_DB.V_SalesLineItem_FACT WHERE DATE(time_stamp)>='2022-01-18' GROUP BY 1 ORDER BY 1")
+  sale_sql=paste("SELECT DATE(time_stamp) AS date, SUM(original_price) AS revenue FROM MB_Game_DB.V_SalesLineItem_FACT WHERE DATE(time_stamp)>='2022-01-18' AND DATE(time_stamp)<DATE(getdate()) GROUP BY 1 ORDER BY 1")
   sale_data <- dbGetQuery(vertica, sale_sql)
   sale_data <- as.data.frame(sale_data)
   sale_data$date<-as.Date(sale_data$date,format="%Y-%m-%d")

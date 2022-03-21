@@ -1,12 +1,4 @@
-# Please run the R programs in order
-source('./packages.R',local=TRUE)
-user_base <- tibble::tibble(
-  user = c("cbeers", "rfeng"),
-  password = sapply(c("cbeers", "rfeng"), sodium::password_store),
-  permissions = c("standard","admin"),
-  name = c("Craig Beers", "Reyna Feng")
-)
-source('./ui_total.R',local=TRUE)
+source('./ui.R',local=TRUE)
 # Define server
 server<-function(input,output,session){
   credentials <- shinyauthr::loginServer(
