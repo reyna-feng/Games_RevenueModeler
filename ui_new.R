@@ -1,4 +1,8 @@
-ui = tagList(
+output$main_ui = renderUI({
+  # Show only when authenticated
+  req(credentials()$user_auth)
+  
+  tagList(
     tags$style(HTML("
       .shiny-output-error-validation {
         color: #ff0000;
@@ -126,6 +130,8 @@ ui = tagList(
                  tabsetPanel(type = "tabs",
                              tabPanel("Revenue by Month",tableOutput("month_view")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("Revenue by Date",reactableOutput("date_view")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
+                             tabPanel("Actual Revenue by Month",plotOutput("sale_actual_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
+                             tabPanel("Actual Revenue vs Predictive Revenue",plotOutput("sale_actual_diff")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("Revenue plot", plotOutput("revenue_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("LTV plot", plotOutput("ltv_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1)),
                              tabPanel("Retention plot", plotOutput("retention_plot")%>% withSpinner(type=4,color="#0dc5c1",size=1))
@@ -143,3 +149,4 @@ ui = tagList(
       )
     )
   )
+})

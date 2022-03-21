@@ -22,4 +22,4 @@ library(shinythemes)
 library(data.table)
 library(shinycssloaders)
 library(bslib)
-
+library(shinyauthr)

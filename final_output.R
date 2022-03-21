@@ -147,7 +147,8 @@ revenue<-reactive({
            net_revenue=sum(net_revenue))%>%
     mutate(running_net_revenue=cumsum(net_revenue)) %>%
     select(year_month,total_install,total_iap_revenue,total_ad_revenue,total_marketing_cost,net_revenue,running_net_revenue)%>%
-    distinct()
+    distinct()%>%
+    arrange(year_month)
   ggplot(data=final_month)+
     geom_bar(aes(x=year_month,y=net_revenue),stat="identity", fill="skyblue4",color="#006000")+
     geom_line(aes(x=year_month, y=running_net_revenue),color="tomato4")+
