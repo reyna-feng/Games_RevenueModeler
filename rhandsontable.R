@@ -29,7 +29,9 @@ output$reinvest<-renderRHandsontable({
     hot_col('cpi',format="$0,0.00")%>%
     hot_validate_numeric(col = 'cpi', min = 0,allowInvalid = TRUE)%>%
     hot_col('network_ratio',format="0%")%>%
-    hot_validate_numeric(col = 'network_ratio', min = 0,max=1,allowInvalid = TRUE)
+    hot_validate_numeric(col = 'network_ratio', min = 0,max=1,allowInvalid = TRUE)%>%
+    hot_col('additional_reinvest_monthly',format="$0,0")%>%
+    hot_validate_numeric(col = 'additional_reinvest_monthly', min = 0,allowInvalid = TRUE)
 })
 #The third table
 output$ltv_input<-renderRHandsontable({

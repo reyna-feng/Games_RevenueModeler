@@ -76,21 +76,21 @@ merge_table<-reactive({
   join_5<-sqldf(
     '
 select a.seqdays,a.date,b.network,platform,campaign,start_date,end_date,total_spend,cpi,
-       total_spend/(end_date-start_date+1)/cpi as daily_users,0.0 as reinvest_percentage,0.0 as network_ratio
+       total_spend/(end_date-start_date+1)/cpi as daily_users,0.0 as reinvest_percentage,0.0 as network_ratio,0.0 as additional_reinvest
 from date_df as a
 join initial_builder as b on a.date>=cast(b.start_date as date) and a.date<=cast(b.end_date as date)
 
-union
+union all
 
 select a.seqdays,a.date,b.network,platform,"Organic campaign" as campaign,start_date,end_date,0.0 as total_spend,0.0 as cpi,
-       daily_users,0.0 as reinvest_percentage,0.0 as network_ratio
+       daily_users,0.0 as reinvest_percentage,0.0 as network_ratio, 0.0 as additional_reinvest
 from date_df as a
 join organic as b on a.date>=cast(b.start_date as date) and a.date<=cast(b.end_date as date)
 
-union
+union all
 
 select a.seqdays,a.date,b.network,platform,campaign,start_date,end_date,0.0 as total_spend,cpi,
-       0.0 as daily_users,reinvest_percentage,network_ratio
+       0.0 as daily_users,reinvest_percentage,network_ratio,additional_reinvest_monthly/30 as additional_reinvest
 from date_df as a
 join reinvest as b on a.date>=cast(b.start_date as date) and a.date<=cast(b.end_date as date)
 
@@ -110,7 +110,9 @@ select a.seqdays,a.date,
        case when total_spend is not null then total_spend else 0.0 end as total_spend,
        case when cpi is not null then cpi else 0.0 end as cpi,
        case when daily_users is not null then daily_users else 0 end as daily_users,
-       case when reinvest_percentage is not null then reinvest_percentage*network_ratio else 0.0 end as reinvest_percentage
+       case when reinvest_percentage is not null then reinvest_percentage*network_ratio else 0.0 end as reinvest_percentage,
+       case when additional_reinvest is not null then additional_reinvest else 0.0 end as additional_reinvest
+       
 from date_df as a
 join data_ltv as c on a.seqdays=c.days_aged
 left join join_5 as b on a.date=b.date and c.network=b.network and c.platform=b.platform 

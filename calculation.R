@@ -10,7 +10,7 @@ calculation_1<-reactive({
   
   test<-do.call('rbind',lapply(subsets,function(x) {
     for (i in 1:nrow(x)) {
-      x[i,26]=sum(x$ltv[1:i]*x$initial_installs[i:1])
+      x[i,27]=sum(x$ltv[1:i]*x$initial_installs[i:1])
     }
     print(x)
   }
@@ -45,16 +45,16 @@ calculation_2<-reactive({
   test_1<-do.call('rbind',lapply(subsets_platform,function(x) {
     for (i in 2:nrow(x))
     {
-      x[i,34]=x$daily_ini_revenue[i-1]
+      x[i,35]=x$daily_ini_revenue[i-1]
       if (x$cpi[i]>0) {
-        x[i,30]=x$temp_daily_ini_revenue[i]*x$reinvest_percentage[i]/x$cpi[i]
+        x[i,31]=(x$temp_daily_ini_revenue[i]*x$reinvest_percentage[i]+x$additional_reinvest[i])/x$cpi[i]
       }else{
-        x[i,30]=0
+        x[i,31]=0
       }
-      x[i,31]=floor(x$initial_installs[i]+x$reinvest_installs[i])
-      x[i,33]=sum(x$ltv[1:i]*x$project_install[i:1])-x$initial_revenue[i]
-      x[i,26]=sum(x$ltv[1:i]*x$project_install[i:1])
-      x[i,27]=x$daily_ini_revenue[i]+x$revenue_increase[i]*x$revenue_share[i]
+      x[i,32]=floor(x$initial_installs[i]+x$reinvest_installs[i])
+      x[i,34]=sum(x$ltv[1:i]*x$project_install[i:1])-x$initial_revenue[i]
+      x[i,27]=sum(x$ltv[1:i]*x$project_install[i:1])
+      x[i,28]=x$daily_ini_revenue[i]+x$revenue_increase[i]*x$revenue_share[i]
     }
     print(x)
   }
@@ -69,7 +69,7 @@ calculation_2<-reactive({
   test_4<-do.call('rbind',lapply(test_3,function(x) {
     for (i in 1:nrow(x))
     {
-      x[i,35]=ceiling(sum(x$retention[1:i]*x$project_install[i:1]))
+      x[i,36]=ceiling(sum(x$retention[1:i]*x$project_install[i:1]))
     }
     print(x)
   }

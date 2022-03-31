@@ -5,9 +5,9 @@ account: reynafeng
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5896814
-bundleId: 5707504
+bundleId: 5746682
 url: https://reynafeng.shinyapps.io/Games_RevenueModeler/
-when: 1647847036.04715
-lastSyncTime: 1647847036.04716
+when: 1648669521.69355
+lastSyncTime: 1648669521.69357
 asMultiple: FALSE
 asStatic: FALSE
